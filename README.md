@@ -24,13 +24,11 @@ Streaming chat, vision and real-time voice — in one self-hosted stack.
 ![LiveKit](https://img.shields.io/badge/LiveKit-voice-1FD5F9?style=flat-square&logo=livekit&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)
 
-[Quick start](#quick-start) · [Voice mode](#voice-mode) · [Photos](#photos) · [Model routing](#model-routing) · [Deploying](#production)
+[Quick start](#-quick-start) · [Voice mode](#️-voice-mode) · [Photos](#️-photos) · [Model routing](#-how-model-routing-works) · [Deploying](#-production-checklist)
 
 </div>
 
 ---
-
-<a id="features"></a>
 
 ## ✨ What you get
 
@@ -44,8 +42,6 @@ Streaming chat, vision and real-time voice — in one self-hosted stack.
 | 🎨 **Polished UI** | Streaming Markdown, chat history, search, light and dark themes, keyboard shortcuts, mobile layout. |
 
 ---
-
-<a id="quick-start"></a>
 
 ## 🚀 Quick start
 
@@ -92,8 +88,6 @@ Kalvara/
 ```
 
 ---
-
-<a id="voice-mode"></a>
 
 ## 🎙️ Voice mode
 
@@ -159,8 +153,6 @@ Offer users a choice of voices with `VOICE_VOICES` in `api/.env`.
 
 ---
 
-<a id="photos"></a>
-
 ## 🖼️ Photos
 
 Add images with the **+** button, by pasting, or by dropping them anywhere on
@@ -180,8 +172,6 @@ no chat still uses is cleaned up after a day. Limits are configurable in
 `api/.env` — see [`api/README.md`](api/README.md).
 
 ---
-
-<a id="model-routing"></a>
 
 ## 🔁 How model routing works
 
@@ -204,8 +194,6 @@ each provider, so new releases appear without a code change.
 
 ---
 
-<a id="quality-checks"></a>
-
 ## ✅ Quality checks
 
 ```bash
@@ -214,8 +202,6 @@ cd web && npm run typecheck && npm run build
 ```
 
 ---
-
-<a id="production"></a>
 
 ## 📦 Production checklist
 
