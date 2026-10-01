@@ -26,6 +26,12 @@ Streaming chat, vision and real-time voice — in one self-hosted stack.
 
 [Quick start](#-quick-start) · [Voice mode](#️-voice-mode) · [Photos](#️-photos) · [Model routing](#-how-model-routing-works) · [Deploying](#-production-checklist)
 
+<br>
+
+<img src=".github/assets/demo.gif" alt="Picking a model in Kalvara — local Ollama models first, cloud providers as fallback" width="800">
+
+<sub>Every model you have pulled, plus every provider whose key is set — in one menu.</sub>
+
 </div>
 
 ---
