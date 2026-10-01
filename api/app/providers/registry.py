@@ -68,6 +68,40 @@ def build_providers(settings: Settings) -> list[Provider]:
     return [local, *ordered]
 
 
+# Real chat models that still make a poor *automatic* default: previews,
+# experiments, and the task-specific families providers now list beside their
+# general models. Users can still pick any of these by hand.
+_NICHE_HINTS = (
+    "preview",
+    "experimental",
+    "-exp",
+    "nightly",
+    "snapshot",
+    "-alpha",
+    "-beta",
+    "-rc",
+    "antigravity",
+    "deep-research",
+    "robotics",
+    "computer-use",
+    "transcribe",
+    "lyria",
+    "guard",
+)
+
+
+def _default_rank(index: int, model: ModelInfo) -> tuple[bool, bool, int]:
+    """Sort key for choosing an automatic default; larger is better.
+
+    Providers list task-specific and preview builds alongside their chat
+    models, so the first id is often a bad default -- Google's list starts with
+    an `antigravity-preview-*` build. Prefer a general, current model and fall
+    back to the provider's own order.
+    """
+    mid = model.id.lower()
+    return (not any(h in mid for h in _NICHE_HINTS), "latest" in mid, -index)
+
+
 class ProviderRegistry:
     def __init__(
         self,
@@ -126,7 +160,10 @@ class ProviderRegistry:
     def _preferred(
         provider: Provider, status: ProviderStatus, vision: bool = False
     ) -> ModelInfo | None:
-        """The provider's configured default model, else its first; vision-capable only if asked."""
+        """The provider's configured default model, else its best general one.
+
+        Vision-capable models only when `vision` is set.
+        """
         if not status.available:
             return None
         models = [m for m in status.models if m.vision] if vision else status.models
@@ -136,7 +173,7 @@ class ProviderRegistry:
             for m in models:
                 if m.id == provider.default_model:
                     return m
-        return models[0]
+        return max(enumerate(models), key=lambda pair: _default_rank(*pair))[1]
 
     async def models_response(self, refresh: bool = False) -> ModelsResponse:
         statuses = await self.statuses(refresh)
