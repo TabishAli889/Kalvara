@@ -1,0 +1,76 @@
+# AI Assistant — Web
+
+Next.js 16 · React 19 · TypeScript 7 · Tailwind CSS 4 · shadcn/ui
+
+## Run
+
+```bash
+npm install
+cp .env.example .env.local     # API_URL=http://localhost:8000
+npm run dev                    # http://localhost:3000
+```
+
+The browser calls `/api/*` on this app; `next.config.ts` forwards those
+requests to the FastAPI server at `API_URL`, so no CORS setup is needed.
+
+## Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with Turbopack |
+| `npm run typecheck` | TypeScript 7 type check |
+| `npm run build` | Production build (standalone output) |
+| `npm start` | Serve the production build |
+
+## Structure
+
+```
+app/
+  layout.tsx            fonts, theme provider, tooltips, toasts
+  page.tsx              renders <ChatApp />
+  globals.css           Tailwind 4 + shadcn theme tokens (light/dark) + chat typography
+components/
+  ui/                   shadcn/ui primitives (button, dropdown-menu, sheet, tooltip, …)
+  chat/
+    chat-app.tsx        layout, sidebar, header, shortcuts
+    app-sidebar.tsx     history, search, theme, delete
+    model-picker.tsx    Auto / local Ollama models / cloud providers dropdown
+    message-list.tsx    thread with stick-to-bottom scrolling
+    message.tsx         bubbles, actions, model badge, fallback notice
+    markdown.tsx        GFM markdown with copyable code blocks
+    composer.tsx        auto-growing input, + menu (add/take photos), send/stop/voice
+    empty-state.tsx     greeting + suggestions
+  photos/
+    attachment-tray.tsx photos waiting to send, preparing spinner, errors (HEIC, size)
+    photo-gallery.tsx   photos in a sent message
+    photo-viewer.tsx    full-screen viewer with arrows and keyboard
+    drop-overlay.tsx    drop anywhere + paste from the clipboard
+    vision-notice.tsx   "can't see images" / "Auto will answer with …" notice
+  voice/
+    voice-session.tsx   live voice UI: transcript, mic, stop/mute/end
+hooks/
+  use-models.ts         loads /api/models, remembers the chosen model
+  use-chat.ts           conversations, streaming, stop/regenerate, local persistence
+  use-attachments.ts    add/remove photos, resizing, limits
+  use-image-url.ts      object URL for a stored photo
+  use-voice-config.ts   /api/voice/config + saved voice preferences
+lib/
+  api.ts                fetch + server-sent-event parser
+  types.ts              shared types (mirror the API schemas)
+  images.ts             photo checks, resize/re-encode, error wording
+  image-store.ts        IndexedDB photo storage + cleanup
+  voice.ts              voice session tokens + LiveKit helpers
+  config.ts             app name + placeholder user (rebrand here)
+```
+
+## Adding shadcn components
+
+`components.json` is configured, so `npx shadcn@latest add dialog` (etc.) drops
+new components into `components/ui`.
+
+## Notes
+
+- Chat history is stored in the browser (localStorage) and photos in IndexedDB;
+  messages keep only photo metadata and ids. Swap `hooks/use-chat.ts` and
+  `lib/image-store.ts` for your database and object storage when you add accounts.
+- App name and the placeholder user (Tabish) live in `lib/config.ts`; replace the user with real data once you add auth.

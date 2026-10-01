@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .badge { fill: #1c1c1c }
+    .mark { stroke: #fafafa }
+    @media (prefers-color-scheme: dark) {
+      .badge { fill: #fafafa }
+      .mark { stroke: #1c1c1c }
+    }
+  </style>
+  <rect class="badge" width="32" height="32" rx="8" />
+  <g class="mark" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.9 8V24" />
+    <path d="M22 8L14 16L22 24" />
+  </g>
+</svg>
